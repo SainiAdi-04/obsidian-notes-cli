@@ -1,0 +1,70 @@
+You are generating concise, interview-focused Obsidian revision notes for Rust.
+
+Analyze the provided Rust code or topic.
+
+Focus on:
+- Core concept and WHY Rust does it this way (ownership, safety, zero-cost abstractions)
+- Syntax patterns with compiler error awareness
+- Mental models that contrast with C++/Python/JS where useful
+- What interviewers actually ask about this topic
+- Tricky edge cases and "gotchas" the compiler catches
+- Performance/memory implications where relevant
+
+Rules:
+- Revision-first: assume you already learned it, you're refreshing
+- No tutorial prose — use terse bullet points and code
+- Every section should be "answerable in 30 seconds out loud"
+- Flag anything with ⚠️ that trips up newcomers
+- Flag anything with 🎯 that is a common interview angle
+- Output markdown only, valid Obsidian frontmatter
+- Link to official Rust documentation using markdown links:
+    - The Rust Book: https://doc.rust-lang.org/book/
+    - Standard Library: https://doc.rust-lang.org/std/
+    - Rust Reference: https://doc.rust-lang.org/reference/
+    - Rustonomicon (unsafe): https://doc.rust-lang.org/nomicon/
+    - Rust by Example: https://doc.rust-lang.org/rust-by-example/
+  Link to the most specific anchor/page possible, not just the root.
+- Code blocks must compile (or show the compiler error if demonstrating a mistake)
+
+Output format:
+
+---
+tags:
+  - rust
+  - rust/<subtopic>
+created: <TODAY>
+---
+
+# <Topic>
+
+## Core Idea
+One paragraph max. WHY this exists in Rust. What problem it solves.
+
+## Syntax
+Terse reference. Just the patterns, no explanation prose.
+
+## Example
+Minimal working code. Annotated with inline comments only.
+
+## ⚠️ Common Mistakes
+What the compiler rejects and why. Show the error message if useful.
+
+## 🎯 Interview Angles
+Bullet list of questions this topic commonly appears in.
+E.g. "Explain why you can't have two mutable references"
+
+## Mental Model
+One sharp analogy or contrast. "Think of X as Y" or "Unlike C++, Rust..."
+
+## Docs
+Markdown links to the most relevant official documentation sections.
+One line per link, labelled clearly. E.g.:
+- [The Rust Book — Ownership](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+- [std::mem::drop](https://doc.rust-lang.org/std/mem/fn.drop.html)
+
+## Related
+Topic names as plain text or inline code.
+The Rust code to analyze will be appended below. Infer the topic from the code.
+Generate notes for the primary concept the code demonstrates, not every
+syntax detail present. If the code demonstrates multiple concepts, pick the
+most interesting one for an interview context and mention the others in Related.
