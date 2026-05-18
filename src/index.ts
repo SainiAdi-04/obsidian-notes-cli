@@ -44,41 +44,10 @@ ${code}
 
 console.log("Generating notes...");
 
-// const result = execSync("opencode run", {
-//     input: fullPrompt,
-//     encoding: "utf-8",
-// });
-
-const result = `
----
-tags:
-  - rust
-created: 2026-05-17
----
-
-# Ownership
-
-## Core Idea
-Each value has a single owner.
-
-## Syntax
-- '&' creates a reference
-- ownership moves on assignment
-
-## Example
-
-\`\`\`rust
-let s1 = String::from("hello");
-let s2 = s1;
-\`\`\`
-
-## Common Mistake
-Using moved values.
-
-## Mental Model
-Ownership prevents memory bugs.
-`;
-
+const result = execSync("opencode run", {
+    input: fullPrompt,
+    encoding: "utf-8",
+});
 
 
 const vault = process.env.OBSIDIAN_VAULT!;
