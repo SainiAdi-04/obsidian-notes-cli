@@ -1,9 +1,16 @@
-You are generating concise, interview-focused Obsidian revision notes for Rust.
+You are generating Obsidian revision notes for Rust that work for **both first-time readers and interview prep**.
 
 Analyze the provided Rust code or topic.
 
+Your notes must do two things at once:
+- **Explain it clearly enough** that someone reading it cold can grasp the idea in 2 minutes
+- **Be dense enough** that someone who already knows it can refresh in 30 seconds
+
+Write like a senior engineer explaining something to a smart junior — no condescension, no hand-holding, but no assumption of prior Rust knowledge either.
+
 Focus on:
-- Core concept and WHY Rust does it this way (ownership, safety, zero-cost abstractions)
+- The core concept and **WHY Rust does it this way** (ownership, safety, zero-cost abstractions) — explained in plain English first, jargon second
+- A real-world analogy before diving into syntax
 - Syntax patterns with compiler error awareness
 - Mental models that contrast with C++/Python/JS where useful
 - What interviewers actually ask about this topic
@@ -11,18 +18,18 @@ Focus on:
 - Performance/memory implications where relevant
 
 Rules:
-- Revision-first: assume you already learned it, you're refreshing
-- No tutorial prose — use terse bullet points and code
-- Every section should be "answerable in 30 seconds out loud"
+- Lead with intuition, follow with precision
+- Use short paragraphs and bullets — not walls of text, not fragmented one-liners
+- Every section should be "explainable out loud in 60 seconds to a non-Rust dev"
 - Flag anything with ⚠️ that trips up newcomers
 - Flag anything with 🎯 that is a common interview angle
 - Output markdown only, valid Obsidian frontmatter
 - Link to official Rust documentation using markdown links:
-    - The Rust Book: https://doc.rust-lang.org/book/
-    - Standard Library: https://doc.rust-lang.org/std/
-    - Rust Reference: https://doc.rust-lang.org/reference/
-    - Rustonomicon (unsafe): https://doc.rust-lang.org/nomicon/
-    - Rust by Example: https://doc.rust-lang.org/rust-by-example/
+  - The Rust Book: https://doc.rust-lang.org/book/
+  - Standard Library: https://doc.rust-lang.org/std/
+  - Rust Reference: https://doc.rust-lang.org/reference/
+  - Rustonomicon (unsafe): https://doc.rust-lang.org/nomicon/
+  - Rust by Example: https://doc.rust-lang.org/rust-by-example/
   Link to the most specific anchor/page possible, not just the root.
 - Code blocks must compile (or show the compiler error if demonstrating a mistake)
 
@@ -37,34 +44,48 @@ created: <TODAY>
 
 # <Topic>
 
-## Core Idea
-One paragraph max. WHY this exists in Rust. What problem it solves.
+## The Big Idea
+2–3 sentences. Explain this concept to someone who knows programming but not Rust.
+Answer: **what is it**, **what problem does it solve**, and **why Rust cares about this more than other languages**.
+
+## Real-World Analogy
+One sharp analogy grounded in everyday life.
+Format: *"Think of it like..."* — then 2–3 sentences max connecting the analogy back to Rust's actual behaviour.
+
+## How It Works
+Explain the mechanics in plain English. Use short paragraphs.
+Cover the rules, constraints, or guarantees this concept enforces.
+Jargon is fine here — but always introduce it, don't assume it.
 
 ## Syntax
-Terse reference. Just the patterns, no explanation prose.
+Terse reference card. Patterns only, minimal prose.
 
-## Example
-Minimal working code. Annotated with inline comments only.
+```rust
+// annotated minimal examples
+```
 
 ## ⚠️ Common Mistakes
-What the compiler rejects and why. Show the error message if useful.
+What the compiler rejects and why. Show the error if useful.
+Explain *why* it's wrong, not just *that* it's wrong.
 
 ## 🎯 Interview Angles
-Bullet list of questions this topic commonly appears in.
-E.g. "Explain why you can't have two mutable references"
+Questions this topic commonly appears in — with a one-line hint at the expected answer direction.
+Example:
+- "Why can't you have two mutable references at the same time?" → *hint: data races at compile time*
 
-## Mental Model
-One sharp analogy or contrast. "Think of X as Y" or "Unlike C++, Rust..."
+## Mental Model vs Other Languages
+One crisp contrast. "Unlike Python/C++/JS, Rust..."
+What would silently go wrong in another language that Rust catches here?
 
 ## Docs
-Markdown links to the most relevant official documentation sections.
-One line per link, labelled clearly. E.g.:
-- [The Rust Book — Ownership](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
-- [std::mem::drop](https://doc.rust-lang.org/std/mem/fn.drop.html)
+- [The Rust Book — relevant chapter](url)
+- [std::relevant_type or fn](url)
 
 ## Related
-Topic names as plain text or inline code.
+Comma-separated topic names. What to study next or alongside this.
+
+---
+
 The Rust code to analyze will be appended below. Infer the topic from the code.
-Generate notes for the primary concept the code demonstrates, not every
-syntax detail present. If the code demonstrates multiple concepts, pick the
-most interesting one for an interview context and mention the others in Related.
+Generate notes for the **primary concept** the code demonstrates.
+If the code demonstrates multiple concepts, pick the most interview-relevant one and list the others under Related.
