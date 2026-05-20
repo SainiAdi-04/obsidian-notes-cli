@@ -135,7 +135,7 @@ ${code}
   fs.writeFileSync(outputPath, result);
 
   console.log(
-    `Notes generated at: ${outputPath}`
+    `✓ ${fileName}.md`
   );
 }
 
