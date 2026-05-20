@@ -2,66 +2,141 @@
 
 import fs from "fs-extra";
 import path from "path";
-import { execSync } from "child_process";
-import dotenv from "dotenv";
 
-dotenv.config({
-  path: path.join(__dirname, "..", ".env")
-});
+import { initCommand } from "./commands/init";
+import { loadConfig } from "./config/manager";
+import { generateWithOpenCode } from "./providers/opencode";
 
-const inputPath = process.argv[2];
+async function main() {
+  const arg = process.argv[2];
 
-if(!inputPath){
-    console.log("Usage: notes <rust file>");
+  if (!arg) {
+    console.log("Usage:");
+    console.log("  notes init");
+    console.log("  notes <rust-file>");
     process.exit(1);
-};
+  }
 
-const absolutePath = path.resolve(inputPath)
+  if (arg === "init") {
+    await initCommand();
+    process.exit(0);
+  }
 
-if(!fs.existsSync(absolutePath)){
+
+  const inputPath = arg;
+
+  const absolutePath = path.resolve(inputPath);
+
+  if (!fs.existsSync(absolutePath)) {
     console.log("File not found.");
     process.exit(1);
-}
+  }
 
-const code = fs.readFileSync(absolutePath, "utf-8");
+  const stats = fs.statSync(absolutePath);
 
-const promptPath = path.join(
-  __dirname,
-   "..",
-  "prompts",
-  "rust.txt"
-);
+  if (!stats.isFile()) {
+    console.log(
+      "Currently only single Rust files are supported."
+    );
 
-const prompt = fs.readFileSync(promptPath, "utf-8");
+    process.exit(1);
+  }
 
-const fullPrompt = `${prompt}
+  if (!absolutePath.endsWith(".rs")) {
+    console.log(
+      "Only Rust (.rs) files are supported currently."
+    );
+
+    process.exit(1);
+  }
+
+
+  const config = loadConfig();
+
+  const vaultPath = config.vaultPath;
+
+  if (!fs.existsSync(vaultPath)) {
+    console.log(
+      "Configured Obsidian vault does not exist."
+    );
+
+    process.exit(1);
+  }
+
+
+  const code = fs.readFileSync(
+    absolutePath,
+    "utf-8"
+  );
+
+  const promptPath = path.join(
+    __dirname,
+    "..",
+    "prompts",
+    "rust.txt"
+  );
+
+  if (!fs.existsSync(promptPath)) {
+    console.log("Prompt file missing.");
+    process.exit(1);
+  }
+
+  const prompt = fs.readFileSync(
+    promptPath,
+    "utf-8"
+  );
+
+
+  const fullPrompt = `
+${prompt}
+
 Rust code:
+
 \`\`\`rust
 ${code}
 \`\`\`
 `;
 
 
-console.log("Generating notes...");
+  console.log("Generating notes...");
 
-const result = execSync("opencode run", {
-    input: fullPrompt,
-    encoding: "utf-8",
-});
+  let result = "";
+
+  try {
+    result = generateWithOpenCode(fullPrompt);
+  } catch (error) {
+    console.log(
+      "Failed to generate notes using OpenCode."
+    );
+
+    console.error(error);
+
+    process.exit(1);
+  }
 
 
-const vault = process.env.OBSIDIAN_VAULT!;
-if (!vault) {
-  console.log("OBSIDIAN_VAULT missing in .env");
-  process.exit(1);
+  const outputDir = path.join(
+    vaultPath,
+    "Rust"
+  );
+
+  fs.ensureDirSync(outputDir);
+
+  const fileName = path.basename(
+    inputPath,
+    ".rs"
+  );
+
+  const outputPath = path.join(
+    outputDir,
+    `${fileName}.md`
+  );
+
+  fs.writeFileSync(outputPath, result);
+
+  console.log(
+    `✓ ${fileName}.md`
+  );
 }
-const outputDir = path.join(vault, "Rust");
 
-fs.ensureDirSync(outputDir);
-
-const fileName = path.basename(inputPath, ".rs");
-const outputPath = path.join(outputDir,`${fileName}.md`);
-
-fs.writeFileSync(outputPath, result);
-
-console.log(`Notes generated at: ${outputPath}`);
+main();
