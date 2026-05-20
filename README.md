@@ -1,6 +1,6 @@
-# Obsidian Script
+# Notes CLI
 
-A terminal-first CLI tool that converts source code into concise revision notes for Obsidian using AI agents like OpenCode, Codex, or Copilot.
+A terminal-first CLI tool that converts source code into concise revision notes for Obsidian using AI coding agents like OpenCode, Claude Code, and Codex.
 
 Currently optimized for Rust learning workflows.
 
@@ -8,27 +8,32 @@ Currently optimized for Rust learning workflows.
 
 # Features
 
-- Generate concise markdown notes from Rust files
+- Generate concise markdown revision notes from Rust files
 - Save notes directly into an Obsidian vault
 - Global CLI command
-- TypeScript-based architecture
-- AI-provider agnostic design
+- Interactive setup via `notes init`
+- Config-based architecture
+- Provider-ready architecture
 - Prompt-based note generation
 - Revision-oriented note structure
+- Lightweight and terminal-first
 
 ---
 
 # Motivation
 
-While learning Rust, a lot of useful understanding gets lost inside:
+While learning systems programming languages like Rust, useful understanding often gets lost inside:
 - experiments
 - compiler errors
-- temporary code snippets
+- temporary snippets
+- debugging sessions
 - random examples
 
-This tool turns those learnings into structured Obsidian notes automatically.
+This tool turns those learnings into structured, searchable Obsidian notes automatically.
 
-Example workflow:
+---
+
+# Workflow
 
 ```text
 Rust File
@@ -45,13 +50,15 @@ Obsidian Vault
 # Project Structure
 
 ```text
-obsidian-script/
+notes-cli/
 ├── prompts/
 │   └── rust.txt
 ├── src/
+│   ├── commands/
+│   ├── config/
+│   ├── providers/
 │   └── index.ts
 ├── dist/
-├── .env
 ├── package.json
 └── tsconfig.json
 ```
@@ -64,7 +71,7 @@ obsidian-script/
 
 ```bash
 git clone <repo-url>
-cd obsidian-script
+cd notes-cli
 ```
 
 ---
@@ -91,7 +98,7 @@ npm run build
 npm link
 ```
 
-This creates a global command:
+This creates a global CLI command:
 
 ```bash
 notes
@@ -99,18 +106,31 @@ notes
 
 ---
 
-# Environment Variables
+# Initial Setup
 
-Create a `.env` file in the project root:
+Run:
 
-```env
-OBSIDIAN_VAULT=/path/to/your/obsidian/vault
+```bash
+notes init
+```
+
+You will be prompted for:
+- Obsidian vault path
+- AI provider
+
+Configuration is stored globally at:
+
+```text
+~/.config/notes-cli/config.json
 ```
 
 Example:
 
-```env
-OBSIDIAN_VAULT=/home/aditya/Documents/Obsidian
+```json
+{
+  "vaultPath": "/home/user/Documents/Obsidian",
+  "provider": "opencode"
+}
 ```
 
 ---
@@ -125,9 +145,9 @@ notes ownership.rs
 
 ---
 
-## Example
+# Example
 
-Input:
+## Input
 
 ```rust
 fn main() {
@@ -136,13 +156,15 @@ fn main() {
 }
 ```
 
-Generated note:
+---
+
+## Generated Note
 
 ```md
 # Ownership
 
 ## Core Idea
-Each value has a single owner.
+Each value in Rust has a single owner.
 
 ## Common Mistake
 Using moved values after assignment.
@@ -155,31 +177,25 @@ Using moved values after assignment.
 - TypeScript
 - Node.js
 - fs-extra
-- dotenv
-- OpenCode / Codex (planned integration)
+- prompts
+- OpenCode
 - Obsidian Markdown
 
 ---
 
 # Current Status
 
-MVP working:
-- CLI setup
-- File parsing
+MVP completed:
+- Global CLI setup
+- Interactive initialization
+- Config management
 - Prompt loading
+- OpenCode integration
 - Markdown generation
-- Obsidian output
-
-Planned:
-- Folder support
-- Recursive scanning
-- Daily learning logs
-- Flashcard generation
-- Compiler error summarization
-- Auto-linking concepts
-- Watch mode
+- Obsidian integration
 
 ---
+
 
 # Development
 
@@ -205,15 +221,15 @@ npm run build
 
 ---
 
-# Notes
+# Philosophy
 
 The project is intentionally:
 - terminal-first
 - lightweight
 - markdown-native
 - workflow-oriented
+- minimal in abstraction
 
-No databases, dashboards, or heavy abstractions.
+No dashboards, databases, or unnecessary UI layers.
 
 ---
-
