@@ -1,11 +1,13 @@
 import { generateWithOpenCode } from "./opencode"
 import { generateWithClaude } from "./claudecode"
+import { generateWithCodex } from "./codex"
 
 type ProviderFn = (prompt: string) => string
 
 const providers: Record<string, ProviderFn> = {
   opencode: generateWithOpenCode,
   claudecode: generateWithClaude,
+  codex: generateWithCodex,
 }
 
 export function generate(provider: string, prompt: string): string {
