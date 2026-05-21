@@ -1,8 +1,11 @@
 import { execSync } from "child_process";
 
-export function generateWithOpenCode(prompt: string): string {
+export function generateWithClaude(
+  prompt: string
+): string {
+
   return execSync(
-    "opencode run",
+    "claude-code",
     {
       input: prompt,
       encoding: "utf-8",
